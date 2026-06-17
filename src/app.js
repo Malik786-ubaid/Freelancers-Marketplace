@@ -5,6 +5,7 @@ const authRoutes = require("./routes/auth.routes");
 const userRoutes = require("./routes/user.routes");
 const gigRoutes = require("./routes/gig.routes");
 const orderRoutes = require("./routes/order.routes");
+const reviewRoutes = require("./routes/review.routes");
 
 const app = express();
 
@@ -12,6 +13,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Health Check Route
 app.get("/", (req, res) => {
   res.json({
     success: true,
@@ -24,5 +26,6 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/gigs", gigRoutes);
 app.use("/api/orders", orderRoutes);
+app.use("/api/reviews", reviewRoutes);
 
 module.exports = app;
