@@ -29,10 +29,38 @@ const createGig = async (req, res) => {
 
 const getAllGigs = async (req, res) => {
   try {
-    const gigs = await Gig.find().populate(
+    const { search, category, sort } = req.query;
+
+    let query = {};
+
+    // Search
+    if (search) {
+      query.title = {
+        $regex: search,
+        $options: "i",
+      };
+    }
+
+    // Filter
+    if (category) {
+      query.category = category;
+    }
+
+    let gigsQuery = Gig.find(query).populate(
       "freelancer",
       "name email role"
     );
+
+    // Sort
+    if (sort === "low") {
+      gigsQuery = gigsQuery.sort({ price: 1 });
+    }
+
+    if (sort === "high") {
+      gigsQuery = gigsQuery.sort({ price: -1 });
+    }
+
+    const gigs = await gigsQuery;
 
     res.status(200).json({
       success: true,
