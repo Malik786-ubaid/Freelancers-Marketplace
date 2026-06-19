@@ -8,6 +8,8 @@ const orderRoutes = require("./routes/order.routes");
 const reviewRoutes = require("./routes/review.routes");
 const dashboardRoutes = require("./routes/dashboard.routes");
 
+const errorHandler = require("./middleware/error.middleware");
+
 const app = express();
 
 // Middlewares
@@ -29,5 +31,15 @@ app.use("/api/gigs", gigRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/reviews", reviewRoutes);
 app.use("/api/dashboard", dashboardRoutes);
+
+app.use((req, res) => {
+  res.status(404).json({
+    success: false,
+    message: "Route not found",
+  });
+});
+
+// Global Error Handler
+app.use(errorHandler);
 
 module.exports = app;
