@@ -11,20 +11,16 @@ const {
 
 const authMiddleware = require("../middleware/auth.middleware");
 
-// Get All Users
 router.get("/", getAllUsers);
 
-// Get Single User
 router.get("/:id", getSingleUser);
 
-// Update Logged-in User Profile
 router.put(
   "/profile",
   authMiddleware,
   updateProfile
 );
 
-// Delete User
 router.delete(
   "/:id",
   authMiddleware,

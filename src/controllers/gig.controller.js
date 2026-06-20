@@ -33,7 +33,6 @@ const getAllGigs = async (req, res) => {
 
     let query = {};
 
-    // Search
     if (search) {
       query.title = {
         $regex: search,
@@ -41,7 +40,6 @@ const getAllGigs = async (req, res) => {
       };
     }
 
-    // Filter
     if (category) {
       query.category = category;
     }
@@ -51,7 +49,6 @@ const getAllGigs = async (req, res) => {
       "name email role"
     );
 
-    // Sort
     if (sort === "low") {
       gigsQuery = gigsQuery.sort({ price: 1 });
     }

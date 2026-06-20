@@ -12,7 +12,6 @@ const {
 const authMiddleware = require("../middleware/auth.middleware");
 const roleMiddleware = require("../middleware/role.middleware");
 
-// Client Routes
 router.post(
   "/:gigId",
   authMiddleware,
@@ -27,7 +26,6 @@ router.get(
   getMyOrders
 );
 
-// Freelancer Routes
 router.get(
   "/received",
   authMiddleware,

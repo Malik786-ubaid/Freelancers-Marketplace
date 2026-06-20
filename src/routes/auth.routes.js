@@ -12,7 +12,6 @@ const {
 const authMiddleware = require("../middleware/auth.middleware");
 const validate = require("../middleware/validate.middleware");
 
-// Register
 router.post(
   "/register",
   [
@@ -36,7 +35,6 @@ router.post(
   registerUser
 );
 
-// Login
 router.post(
   "/login",
   [
@@ -52,7 +50,6 @@ router.post(
   loginUser
 );
 
-// Profile
 router.get(
   "/profile",
   authMiddleware,

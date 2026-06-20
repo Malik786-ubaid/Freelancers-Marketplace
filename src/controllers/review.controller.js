@@ -2,7 +2,6 @@ const Review = require("../models/Review.model");
 const Gig = require("../models/Gig.model");
 const Order = require("../models/Order.model");
 
-// Create Review
 const createReview = async (req, res) => {
   try {
     const { rating, comment } = req.body;
@@ -61,7 +60,6 @@ const createReview = async (req, res) => {
   }
 };
 
-// Get Reviews By Gig
 const getGigReviews = async (req, res) => {
   try {
     const reviews = await Review.find({

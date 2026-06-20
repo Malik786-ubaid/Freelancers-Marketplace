@@ -1,7 +1,6 @@
 const Order = require("../models/Order.model");
 const Gig = require("../models/Gig.model");
 
-// Create Order
 const createOrder = async (req, res) => {
   try {
     const gig = await Gig.findById(req.params.gigId);
@@ -40,7 +39,6 @@ const createOrder = async (req, res) => {
   }
 };
 
-// Client Orders
 const getMyOrders = async (req, res) => {
   try {
     const orders = await Order.find({
@@ -62,7 +60,6 @@ const getMyOrders = async (req, res) => {
   }
 };
 
-// Freelancer Orders
 const getReceivedOrders = async (req, res) => {
   try {
     const orders = await Order.find({
@@ -84,7 +81,6 @@ const getReceivedOrders = async (req, res) => {
   }
 };
 
-// Update Status
 const updateOrderStatus = async (req, res) => {
   try {
     const order = await Order.findById(req.params.id);

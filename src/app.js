@@ -12,11 +12,9 @@ const errorHandler = require("./middleware/error.middleware");
 
 const app = express();
 
-// Middlewares
 app.use(cors());
 app.use(express.json());
 
-// Health Check Route
 app.get("/", (req, res) => {
   res.json({
     success: true,
@@ -24,7 +22,6 @@ app.get("/", (req, res) => {
   });
 });
 
-// Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/gigs", gigRoutes);
@@ -39,7 +36,6 @@ app.use((req, res) => {
   });
 });
 
-// Global Error Handler
 app.use(errorHandler);
 
 module.exports = app;

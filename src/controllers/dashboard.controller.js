@@ -3,7 +3,6 @@ const Gig = require("../models/Gig.model");
 const Order = require("../models/Order.model");
 const Review = require("../models/Review.model");
 
-// Dashboard Stats
 const getDashboardStats = async (req, res) => {
   try {
     const totalUsers = await User.countDocuments();
@@ -41,7 +40,6 @@ const getDashboardStats = async (req, res) => {
   }
 };
 
-// Revenue
 const getRevenue = async (req, res) => {
   try {
     const completedOrders = await Order.find({
@@ -67,7 +65,6 @@ const getRevenue = async (req, res) => {
   }
 };
 
-// Recent Orders
 const getRecentOrders = async (req, res) => {
   try {
     const orders = await Order.find()
@@ -89,7 +86,6 @@ const getRecentOrders = async (req, res) => {
   }
 };
 
-// Recent Reviews
 const getRecentReviews = async (req, res) => {
   try {
     const reviews = await Review.find()

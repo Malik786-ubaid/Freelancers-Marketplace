@@ -1,6 +1,5 @@
 const User = require("../models/User.model");
 
-// Get All Users
 const getAllUsers = async (req, res) => {
   try {
     const users = await User.find().select("-password");
@@ -18,7 +17,6 @@ const getAllUsers = async (req, res) => {
   }
 };
 
-// Get Single User
 const getSingleUser = async (req, res) => {
   try {
     const user = await User.findById(req.params.id).select(
@@ -44,7 +42,6 @@ const getSingleUser = async (req, res) => {
   }
 };
 
-// Update Profile
 const updateProfile = async (req, res) => {
   try {
     const { name, avatar } = req.body;
@@ -74,7 +71,6 @@ const updateProfile = async (req, res) => {
   }
 };
 
-// Delete User
 const deleteUser = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
