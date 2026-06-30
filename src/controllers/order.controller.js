@@ -19,10 +19,23 @@ const createOrder = async (req, res) => {
       });
     }
 
+    const {
+      projectTitle,
+      description,
+      budget,
+      deadline,
+    } = req.body;
+
     const order = await Order.create({
       gig: gig._id,
       client: req.user.id,
       freelancer: gig.freelancer,
+
+      projectTitle,
+      description,
+      budget,
+      deadline,
+
       price: gig.price,
     });
 
@@ -92,17 +105,14 @@ const updateOrderStatus = async (req, res) => {
       });
     }
 
-    if (
-      order.freelancer.toString() !== req.user.id
-    ) {
+    if (order.freelancer.toString() !== req.user.id) {
       return res.status(403).json({
         success: false,
         message: "Access denied",
       });
     }
 
-    order.status =
-      req.body.status || order.status;
+    order.status = req.body.status || order.status;
 
     await order.save();
 
