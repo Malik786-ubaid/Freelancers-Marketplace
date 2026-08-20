@@ -11,7 +11,7 @@ const {
 
 const authMiddleware = require("../middleware/auth.middleware");
 
-router.get("/", getAllUsers);
+router.get("/", authMiddleware, getAllUsers);
 
 router.get("/:id", getSingleUser);
 

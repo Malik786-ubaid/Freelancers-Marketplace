@@ -82,6 +82,13 @@ const deleteUser = async (req, res) => {
       });
     }
 
+    if (user._id.toString() !== req.user.id) {
+      return res.status(403).json({
+        success: false,
+        message: "You can only delete your own account",
+      });
+    }
+
     await user.deleteOne();
 
     res.status(200).json({
