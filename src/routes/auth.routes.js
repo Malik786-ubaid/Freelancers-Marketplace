@@ -1,5 +1,6 @@
 const express = require("express");
 const { body } = require("express-validator");
+const rateLimit = require("express-rate-limit");
 
 const router = express.Router();
 
@@ -12,6 +13,19 @@ const {
 const authMiddleware = require("../middleware/auth.middleware");
 const validate = require("../middleware/validate.middleware");
 
+// Login rate limiter
+const loginLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 10,
+  standardHeaders: "draft-8",
+  legacyHeaders: false,
+  message: {
+    success: false,
+    message: "Too many login attempts. Please try again later.",
+  },
+});
+
+// Register
 router.post(
   "/register",
   [
@@ -35,8 +49,10 @@ router.post(
   registerUser
 );
 
+// Login
 router.post(
   "/login",
+  loginLimiter,
   [
     body("email")
       .isEmail()
@@ -50,6 +66,7 @@ router.post(
   loginUser
 );
 
+// Profile
 router.get(
   "/profile",
   authMiddleware,
