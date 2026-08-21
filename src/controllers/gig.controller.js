@@ -116,9 +116,27 @@ const updateGig = async (req, res) => {
       });
     }
 
+    const {
+      title,
+      description,
+      price,
+      category,
+      tags,
+      image,
+    } = req.body;
+
     const updatedGig = await Gig.findByIdAndUpdate(
       req.params.id,
-      req.body,
+      {
+        $set: {
+          title,
+          description,
+          price,
+          category,
+          tags,
+          image,
+        },
+      },
       {
         new: true,
         runValidators: true,
