@@ -1,13 +1,11 @@
 const jwt = require("jsonwebtoken");
+const User = require("../models/User.model");
 
-const authMiddleware = (req, res, next) => {
+const authMiddleware = async (req, res, next) => {
   try {
     const authHeader = req.headers.authorization;
 
-    if (
-      !authHeader ||
-      !authHeader.startsWith("Bearer ")
-    ) {
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
       return res.status(401).json({
         success: false,
         message: "Access denied",
@@ -21,7 +19,30 @@ const authMiddleware = (req, res, next) => {
       process.env.JWT_SECRET
     );
 
-    req.user = decoded;
+    const user = await User.findById(decoded.id).select(
+      "_id name email role isActive"
+    );
+
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        message: "User account no longer exists",
+      });
+    }
+
+    if (user.isActive === false) {
+      return res.status(401).json({
+        success: false,
+        message: "User account is inactive",
+      });
+    }
+
+    req.user = {
+      id: user._id.toString(),
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    };
 
     next();
   } catch (error) {
