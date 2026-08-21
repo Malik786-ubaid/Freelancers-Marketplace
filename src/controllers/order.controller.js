@@ -112,13 +112,45 @@ const updateOrderStatus = async (req, res) => {
       });
     }
 
-    order.status = req.body.status || order.status;
+    const newStatus = req.body.status;
+
+    const allowedStatuses = [
+      "pending",
+      "in_progress",
+      "completed",
+      "cancelled",
+    ];
+
+    if (!allowedStatuses.includes(newStatus)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid order status",
+      });
+    }
+
+    const allowedTransitions = {
+      pending: ["in_progress", "cancelled"],
+      in_progress: ["completed", "cancelled"],
+      completed: [],
+      cancelled: [],
+    };
+
+    const currentStatus = order.status;
+
+    if (!allowedTransitions[currentStatus].includes(newStatus)) {
+      return res.status(400).json({
+        success: false,
+        message: `Cannot change order status from ${currentStatus} to ${newStatus}`,
+      });
+    }
+
+    order.status = newStatus;
 
     await order.save();
 
     res.status(200).json({
       success: true,
-      message: "Order status updated",
+      message: "Order status updated successfully",
       order,
     });
   } catch (error) {
