@@ -11,28 +11,12 @@ const {
 
 const authMiddleware = require("../middleware/auth.middleware");
 
-router.get(
-  "/stats",
-  authMiddleware,
-  getDashboardStats
-);
+router.get("/stats", authMiddleware, getDashboardStats);
 
-router.get(
-  "/revenue",
-  authMiddleware,
-  getRevenue
-);
+router.get("/revenue", authMiddleware, getRevenue);
 
-router.get(
-  "/recent-orders",
-  authMiddleware,
-  getRecentOrders
-);
+router.get("/recent-orders", authMiddleware, getRecentOrders);
 
-router.get(
-  "/recent-reviews",
-  authMiddleware,
-  getRecentReviews
-);
+router.get("/recent-reviews", authMiddleware, getRecentReviews);
 
 module.exports = router;

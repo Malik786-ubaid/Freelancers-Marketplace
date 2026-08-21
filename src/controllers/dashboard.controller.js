@@ -67,7 +67,15 @@ const getRevenue = async (req, res) => {
 
 const getRecentOrders = async (req, res) => {
   try {
-    const orders = await Order.find()
+    let filter = {};
+
+    if (req.user.role === "freelancer") {
+      filter.freelancer = req.user.id;
+    } else if (req.user.role === "client") {
+      filter.client = req.user.id;
+    }
+
+    const orders = await Order.find(filter)
       .populate("client", "name email")
       .populate("gig", "title")
       .sort({ createdAt: -1 })
@@ -88,7 +96,21 @@ const getRecentOrders = async (req, res) => {
 
 const getRecentReviews = async (req, res) => {
   try {
-    const reviews = await Review.find()
+    let filter = {};
+
+    if (req.user.role === "client") {
+      filter.client = req.user.id;
+    } else if (req.user.role === "freelancer") {
+      const myGigs = await Gig.find({
+        freelancer: req.user.id,
+      }).select("_id");
+
+      filter.gig = {
+        $in: myGigs.map((gig) => gig._id),
+      };
+    }
+
+    const reviews = await Review.find(filter)
       .populate("client", "name email")
       .populate("gig", "title")
       .sort({ createdAt: -1 })
